@@ -1,21 +1,30 @@
 # ClaudeGate
 
-Terminal utility to switch between AI provider configurations for Claude CLI.
+[![npm version](https://badge.fury.io/js/claudegate.svg)](https://www.npmjs.com/package/claudegate)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![CI](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml/badge.svg)](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml)
 
-## Overview
+> A terminal utility that acts as a gateway for Claude CLI, enabling seamless switching between AI providers without modifying your Claude configuration.
 
-ClaudeGate is a gateway/wrapper around Claude CLI that allows users to easily switch between different AI provider configurations without manually editing config files.
+## Why ClaudeGate?
+
+Claude CLI is powerful, but switching between different AI providers (Anthropic, OpenRouter, Z.AI, etc.) requires manually setting environment variables or editing config files. **ClaudeGate** solves this by providing:
+
+- **One-click provider switching** - Interactive menu to select your AI backend
+- **Profile management** - Save multiple configurations for different use cases
+- **Zero config pollution** - Never modifies your `~/.claude/settings.json`
+- **Full CLI passthrough** - All Claude arguments work exactly as expected
 
 ## Supported Providers
 
 | Provider | Description |
 |----------|-------------|
 | **Anthropic (Native)** | Use your existing Claude CLI configuration |
-| **Z.AI (GLM Models)** | Cheaper alternative using GLM models |
-| **OpenRouter** | Access 320+ models through OpenRouter |
-| **Kimi K2 (Moonshot AI)** | 90% cheaper - Moonshot AI Kimi K2 models |
-| **Novita AI** | Novita AI provider |
-| **Custom / Self-hosted** | LiteLLM, Hugging Face TGI, or other compatible endpoints |
+| **Z.AI (GLM Models)** | Cost-effective alternative using GLM-4.7 models |
+| **OpenRouter** | Access 320+ models through a single API |
+| **Kimi K2 (Moonshot AI)** | Up to 90% cost savings with Kimi K2 models |
+| **Novita AI** | Novita AI provider support |
+| **Custom / Self-hosted** | LiteLLM, Hugging Face TGI, or any compatible endpoint |
 
 ## Installation
 
@@ -23,51 +32,30 @@ ClaudeGate is a gateway/wrapper around Claude CLI that allows users to easily sw
 npm install -g claudegate
 ```
 
-Or clone and install locally:
+## Quick Start
 
 ```bash
-git clone <repo-url>
-cd personal-cli
-npm install
-npm run build
-npm link
-```
-
-## Usage
-
-### Basic Usage
-
-```bash
-# Launch interactive profile selector, then Claude
+# Launch ClaudeGate - shows profile selector, then starts Claude
 claudegate
 
-# Pass arguments to Claude
-claudegate -p "help me fix this bug"
-claudegate --help
-claudegate --resume
-
-# Quick alias
+# Or use the short alias
 cc
-cc -p "write some code"
+
+# All Claude CLI arguments work as expected
+claudegate -p "explain this code"
+claudegate --resume
+cc -p "help me debug this"
 ```
 
-### How It Works
-
-Every time you run `claudegate` or `cc`:
-
-1. **Profile Selector** - Always shows first, letting you pick which provider to use
-2. **Select/Add/Manage** - Pick existing profile, add new one, or manage existing
-3. **Launch Claude** - After selection, Claude CLI launches with the correct environment
-
-### Profile Selector Menu
+## How It Works
 
 ```
-╔═══════════════════════════════════════════════════════╗
-║                     CLAUDEGATE                        ║
-╚═══════════════════════════════════════════════════════╝
+┌─────────────────────────────────────────────────────────────┐
+│                        CLAUDEGATE                           │
+└─────────────────────────────────────────────────────────────┘
 
 ? Select active profile:
-> ● work-anthropic (Anthropic) [current]
+❯ ● work-anthropic (Anthropic) [current]
     zai-dev (Z.AI - GLM Models)
     openrouter-gpt4 (OpenRouter)
     kimi-k2 (Kimi K2 - Moonshot AI)
@@ -76,46 +64,50 @@ Every time you run `claudegate` or `cc`:
     ⚙ Manage profiles
 ```
 
+1. **Select Profile** - Choose which AI provider to use
+2. **Launch Claude** - Claude CLI starts with the correct environment
+3. **Work normally** - All your usual Claude workflows just work
+
+## Profile Management
+
 ### Adding a Profile
 
-When you select "+ Add new profile":
+Select **"+ Add new profile"** from the menu:
 
 1. Choose a provider (Anthropic, Z.AI, OpenRouter, etc.)
-2. Enter a profile name
+2. Enter a profile name (e.g., "work-openrouter")
 3. Enter required credentials (API keys, endpoints)
-4. Profile is saved and set as active
+4. Profile is saved and ready to use
 
 ### Managing Profiles
 
-When you select "⚙ Manage profiles":
+Select **"⚙ Manage profiles"** to:
 
-- **Edit** - Modify profile name or credentials
+- **Edit** - Update profile name or credentials
 - **Delete** - Remove a profile
-- **Test** - Verify configuration is valid
+- **Test** - Verify your configuration works
 
 ## Configuration
 
-Profiles are stored in `~/.claudegate/config.json`.
-
-### Example Config
+Profiles are stored in `~/.claudegate/config.json`:
 
 ```json
 {
   "version": "1.0.0",
-  "activeProfileId": "uuid-here",
+  "activeProfileId": "abc-123",
   "profiles": [
     {
-      "id": "uuid-here",
+      "id": "abc-123",
       "name": "work-anthropic",
       "providerId": "anthropic",
       "envVars": {}
     },
     {
-      "id": "uuid-2",
+      "id": "def-456",
       "name": "zai-dev",
       "providerId": "zai",
       "envVars": {
-        "ANTHROPIC_AUTH_TOKEN": "your-key",
+        "ANTHROPIC_AUTH_TOKEN": "your-api-key",
         "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic"
       }
     }
@@ -123,14 +115,52 @@ Profiles are stored in `~/.claudegate/config.json`.
 }
 ```
 
-## Key Features
+## Prerequisites
 
-- **Unified Flow** - Always shows profile selector, then launches Claude
-- **Pure Passthrough** - All arguments pass directly to Claude CLI
-- **Non-Destructive** - Doesn't modify `~/.claude/settings.json`
-- **Multiple Providers** - Support for 6 different providers out of the box
+- **Node.js** >= 18.0.0
+- **[Claude CLI](https://docs.anthropic.com/en/docs/claude-code)** installed and configured
+- API keys for your desired providers
+
+## Security
+
+- Config stored with `0600` permissions (owner read/write only)
+- API keys stored locally, never transmitted except to configured providers
+- Sensitive values masked during input
+
+## Troubleshooting
+
+### Claude CLI not found
+
+```bash
+which claude  # Should show Claude CLI path
+```
+
+If not found, install Claude CLI first.
+
+### Permission denied
+
+```bash
+chmod 700 ~/.claudegate
+chmod 600 ~/.claudegate/config.json
+```
+
+### Provider connection issues
+
+Use the **"Test"** option in profile management to verify credentials.
+
+## Uninstall
+
+```bash
+npm uninstall -g claudegate
+rm -rf ~/.claudegate
+```
+
+## Contributing
+
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+This project uses [Conventional Commits](https://www.conventionalcommits.org/) for automatic versioning.
 
 ## License
 
-MIT
-
+[MIT](LICENSE)

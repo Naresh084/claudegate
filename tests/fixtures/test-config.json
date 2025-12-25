@@ -1,0 +1,40 @@
+{
+  "version": "1.0.0",
+  "activeProfileId": "test-profile-1",
+  "profiles": [
+    {
+      "id": "test-profile-1",
+      "name": "Test Anthropic",
+      "providerId": "anthropic",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "envVars": {}
+    },
+    {
+      "id": "test-profile-2",
+      "name": "Test ZAI",
+      "providerId": "zai",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "envVars": {
+        "ANTHROPIC_AUTH_TOKEN": "test-token",
+        "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic"
+      }
+    },
+    {
+      "id": "test-profile-3",
+      "name": "Test OpenRouter",
+      "providerId": "openrouter",
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2025-01-01T00:00:00.000Z",
+      "envVars": {
+        "OPENROUTER_API_KEY": "test-key",
+        "ANTHROPIC_BASE_URL": "https://openrouter.ai/api",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL": "anthropic/claude-3.5-sonnet"
+      }
+    }
+  ],
+  "settings": {
+    "timeout": 3000000
+  }
+}

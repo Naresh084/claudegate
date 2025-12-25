@@ -1,3 +1,22 @@
+/**
+ * @module Environment Builder Service
+ * @description Builds environment variables for Claude CLI based on profile configuration.
+ *
+ * This service is responsible for:
+ * - Applying provider default values
+ * - Merging profile-specific overrides
+ * - Clearing conflicting environment variables (e.g., ANTHROPIC_API_KEY)
+ *
+ * @example
+ * // Build env vars for a profile
+ * const envVars = buildEnvVars(profile);
+ * // { ANTHROPIC_BASE_URL: 'https://...', ANTHROPIC_AUTH_TOKEN: '...' }
+ *
+ * // Merge with process environment
+ * const fullEnv = mergeEnv(envVars);
+ * // Contains both system env and profile env
+ */
+
 import type { Profile } from '../types/index.js';
 import { getProviderById } from '../providers/index.js';
 

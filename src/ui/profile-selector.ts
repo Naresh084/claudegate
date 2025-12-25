@@ -1,3 +1,24 @@
+/**
+ * @module Profile Selector
+ * @description Interactive profile selection UI component.
+ *
+ * This module provides the main user interface for selecting AI provider profiles.
+ * The selector is displayed every time ClaudeGate is launched and allows users to:
+ * - Select from existing profiles
+ * - Add new profiles
+ * - Manage (edit/delete) existing profiles
+ *
+ * The Anthropic (Default) profile is always available and uses the existing
+ * Claude CLI configuration without any modifications.
+ *
+ * @example
+ * // Show the profile selector and get user's choice
+ * const profile = await showProfileSelector();
+ * if (profile) {
+ *   // Launch Claude with the selected profile
+ * }
+ */
+
 import { select } from '@inquirer/prompts';
 import chalk from 'chalk';
 import {

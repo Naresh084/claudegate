@@ -23,7 +23,6 @@ import { select } from '@inquirer/prompts';
 import chalk from 'chalk';
 import {
   getAllProfiles,
-  getActiveProfile,
   setActiveProfile,
   getActiveProfileId,
 } from '../services/profile.service.js';

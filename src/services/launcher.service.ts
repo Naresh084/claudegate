@@ -1,6 +1,5 @@
 import { spawn } from 'child_process';
 import { buildEnvVars, mergeEnv } from './env-builder.service.js';
-import { getActiveProfile } from './profile.service.js';
 import { loadConfig } from './config.service.js';
 import type { Profile } from '../types/index.js';
 

@@ -133,3 +133,4 @@ Profiles are stored in `~/.claudegate/config.json`.
 ## License
 
 MIT
+

@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-import chalk from 'chalk';
 import { showProfileSelector } from './ui/profile-selector.js';
 import { launchClaude } from './services/launcher.service.js';
 import { buildEnvVars } from './services/env-builder.service.js';

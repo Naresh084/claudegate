@@ -44,7 +44,15 @@ async function main(): Promise<void> {
       if (envVars['ANTHROPIC_BASE_URL']) {
         showInfo(`Endpoint: ${envVars['ANTHROPIC_BASE_URL']}`);
       }
-      if (envVars['ANTHROPIC_DEFAULT_SONNET_MODEL']) {
+
+      // Display selected models
+      if (profile.selectedModels) {
+        const { haiku, sonnet, opus } = profile.selectedModels;
+        if (haiku) showInfo(`Haiku: ${haiku.name}`);
+        if (sonnet) showInfo(`Sonnet: ${sonnet.name}`);
+        if (opus) showInfo(`Opus: ${opus.name}`);
+      } else if (envVars['ANTHROPIC_DEFAULT_SONNET_MODEL']) {
+        // Fallback to env var display for legacy profiles
         showInfo(`Model: ${envVars['ANTHROPIC_DEFAULT_SONNET_MODEL']}`);
       }
     }

@@ -35,6 +35,24 @@ export interface EnvVarSpec {
 }
 
 /**
+ * Configuration for dynamic model fetching
+ */
+export interface ModelFetchConfig {
+  supported: boolean;
+  endpoint?: string;
+  authKeyEnvVar?: string;
+}
+
+/**
+ * Fallback model when API fetch fails
+ */
+export interface FallbackModel {
+  id: string;
+  name: string;
+  tier: 'haiku' | 'sonnet' | 'opus';
+}
+
+/**
  * Definition of a supported AI provider
  */
 export interface ProviderDefinition {
@@ -45,4 +63,8 @@ export interface ProviderDefinition {
   envVars: EnvVarSpec[];
   // If true, don't set any env vars - use user's existing config
   useExistingConfig?: boolean;
+  // Configuration for dynamic model fetching
+  modelFetching?: ModelFetchConfig;
+  // Static fallback models when API fetch fails or isn't available
+  fallbackModels?: FallbackModel[];
 }

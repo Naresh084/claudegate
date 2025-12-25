@@ -12,6 +12,10 @@ export function showInfo(message: string): void {
   console.log(chalk.blue('  i'), message);
 }
 
+export function showWarning(message: string): void {
+  console.log(chalk.yellow('  ⚠'), message);
+}
+
 export function showDivider(): void {
   console.log(chalk.dim('  ' + '─'.repeat(55)));
 }

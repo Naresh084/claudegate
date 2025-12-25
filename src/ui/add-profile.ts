@@ -2,9 +2,11 @@ import { select } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { PROVIDERS, getProviderById } from '../providers/index.js';
 import { createProfile, setActiveProfile } from '../services/profile.service.js';
+import { hasFallbackModels } from '../services/model.service.js';
 import { promptProfileName, promptEnvVars } from './profile-form.js';
+import { selectModels } from './model-selector.js';
 import { showSuccess } from './components/status.js';
-import type { Profile } from '../types/index.js';
+import type { Profile, SelectedModels } from '../types/index.js';
 
 /**
  * Flow for adding a new profile
@@ -40,10 +42,39 @@ export async function addProfileFlow(): Promise<Profile | null> {
     envVars = await promptEnvVars(provider);
   }
 
-  // 4. Create the profile
-  const profile = createProfile(name, providerId, envVars);
+  // 4. Model selection (if provider supports it)
+  let selectedModels: SelectedModels | undefined;
 
-  // 5. Set as active
+  const supportsModels =
+    provider.modelFetching?.supported || hasFallbackModels(providerId);
+
+  if (supportsModels && !provider.useExistingConfig) {
+    // Get API key from env vars
+    const apiKeyEnvVar =
+      provider.modelFetching?.authKeyEnvVar || 'ANTHROPIC_AUTH_TOKEN';
+    const apiKey =
+      envVars[apiKeyEnvVar] || envVars['OPENROUTER_API_KEY'] || '';
+
+    if (apiKey) {
+      console.log();
+      console.log(chalk.cyan('  Model Selection:'));
+
+      const models = await selectModels(provider, apiKey);
+      if (models) {
+        selectedModels = {
+          haiku: models.haiku,
+          sonnet: models.sonnet,
+          opus: models.opus,
+          lastFetched: new Date().toISOString(),
+        };
+      }
+    }
+  }
+
+  // 5. Create the profile
+  const profile = createProfile(name, providerId, envVars, selectedModels);
+
+  // 6. Set as active
   setActiveProfile(profile.id);
 
   console.log();

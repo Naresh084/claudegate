@@ -55,6 +55,19 @@ export function buildEnvVars(profile: Profile): Record<string, string> {
     }
   }
 
+  // Apply selected models (if set)
+  if (profile.selectedModels) {
+    if (profile.selectedModels.haiku) {
+      env['ANTHROPIC_DEFAULT_HAIKU_MODEL'] = profile.selectedModels.haiku.id;
+    }
+    if (profile.selectedModels.sonnet) {
+      env['ANTHROPIC_DEFAULT_SONNET_MODEL'] = profile.selectedModels.sonnet.id;
+    }
+    if (profile.selectedModels.opus) {
+      env['ANTHROPIC_DEFAULT_OPUS_MODEL'] = profile.selectedModels.opus.id;
+    }
+  }
+
   return env;
 }
 

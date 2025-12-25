@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { loadConfig, saveConfig } from './config.service.js';
-import type { Profile } from '../types/index.js';
+import type { Profile, SelectedModels } from '../types/index.js';
 
 /**
  * Get all profiles
@@ -49,7 +49,8 @@ export function getProfileByName(name: string): Profile | null {
 export function createProfile(
   name: string,
   providerId: string,
-  envVars: Record<string, string>
+  envVars: Record<string, string>,
+  selectedModels?: SelectedModels
 ): Profile {
   const config = loadConfig();
 
@@ -60,6 +61,7 @@ export function createProfile(
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     envVars,
+    selectedModels,
   };
 
   config.profiles.push(profile);
@@ -73,7 +75,7 @@ export function createProfile(
  */
 export function updateProfile(
   id: string,
-  updates: Partial<Pick<Profile, 'name' | 'envVars'>>
+  updates: Partial<Pick<Profile, 'name' | 'envVars' | 'selectedModels'>>
 ): Profile | null {
   const config = loadConfig();
   const index = config.profiles.findIndex((p) => p.id === id);
@@ -83,6 +85,9 @@ export function updateProfile(
   const profile = config.profiles[index];
   if (updates.name) profile.name = updates.name;
   if (updates.envVars) profile.envVars = updates.envVars;
+  if (updates.selectedModels !== undefined) {
+    profile.selectedModels = updates.selectedModels;
+  }
   profile.updatedAt = new Date().toISOString();
 
   config.profiles[index] = profile;

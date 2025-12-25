@@ -83,13 +83,19 @@
     "typescript": "^5.4.0",
     "vitest": "^2.0.0"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "release": {
     "branches": ["main", "master"],
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/changelog",
-      "@semantic-release/npm",
+      ["@semantic-release/npm", {
+        "provenance": true
+      }],
       ["@semantic-release/git", {
         "assets": ["package.json", "CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"

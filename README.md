@@ -1,42 +1,65 @@
 # ClaudeGate
 
-[![npm version](https://badge.fury.io/js/claudegate.svg)](https://www.npmjs.com/package/claudegate)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml/badge.svg)](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml)
+<p align="center">
+  <strong>A gateway for Claude CLI that enables seamless switching between AI providers</strong>
+</p>
 
-> A terminal utility that acts as a gateway for Claude CLI, enabling seamless switching between AI providers and models without modifying your Claude configuration.
+<p align="center">
+  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/v/claudegate.svg?style=flat-square" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/dm/claudegate.svg?style=flat-square" alt="npm downloads"></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg?style=flat-square" alt="Node.js"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
+  <a href="https://github.com/Naresh084/claudegate/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Naresh084/claudegate/ci.yml?branch=main&style=flat-square" alt="CI"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Naresh084/claudegate/stargazers"><img src="https://img.shields.io/github/stars/Naresh084/claudegate?style=social" alt="GitHub stars"></a>
+  <a href="https://github.com/Naresh084/claudegate/network/members"><img src="https://img.shields.io/github/forks/Naresh084/claudegate?style=social" alt="GitHub forks"></a>
+</p>
+
+---
+
+**ClaudeGate** is a terminal utility that wraps Claude CLI, enabling you to switch between multiple AI providers (Anthropic, OpenRouter, DeepSeek, Z.AI, MiniMax, Kimi K2, and more) without modifying your Claude configuration. Select your provider, choose your models, and start coding.
 
 ## Why ClaudeGate?
 
-Claude CLI is powerful, but switching between different AI providers (Anthropic, OpenRouter, Z.AI, DeepSeek, MiniMax, etc.) requires manually setting environment variables or editing config files. **ClaudeGate** solves this by providing:
+Claude CLI is powerful, but switching between different AI providers requires manually setting environment variables or editing config files. ClaudeGate solves this by providing:
 
-- **One-click provider switching** - Interactive menu to select your AI backend
-- **Dynamic model selection** - Fetch and select models directly from provider APIs
-- **Three-tier model mapping** - Configure Haiku, Sonnet, and Opus alternatives
-- **Profile management** - Save multiple configurations for different use cases
-- **Zero config pollution** - Never modifies your `~/.claude/settings.json`
-- **Full CLI passthrough** - All Claude arguments work exactly as expected
+- **One-click provider switching** — Interactive menu to select your AI backend
+- **Dynamic model selection** — Fetch and select models directly from provider APIs
+- **Three-tier model mapping** — Configure Haiku, Sonnet, and Opus alternatives
+- **Profile management** — Save multiple configurations for different use cases
+- **Zero config pollution** — Never modifies your `~/.claude/settings.json`
+- **Full CLI passthrough** — All Claude arguments work exactly as expected
 
 ## Supported Providers
 
 | Provider | Description | Live Model Fetching |
-|----------|-------------|---------------------|
-| **Anthropic (Native)** | Use your existing Claude CLI configuration | N/A |
-| **Z.AI (GLM Models)** | Cost-effective alternative using GLM-4.6/4.7 models | ✅ |
-| **OpenRouter** | Access 320+ models through a single API | ✅ |
-| **Kimi K2 (Moonshot AI)** | Up to 90% cost savings with Kimi K2 models | ✅ |
-| **MiniMax (M2 Models)** | Agent-native M2/M2.1 models for coding workflows | ✅ |
-| **DeepSeek (V3 Models)** | Cost-effective 128K context models with reasoning | ✅ |
-| **Novita AI** | Novita AI provider support | ✅ |
-| **Custom / Self-hosted** | LiteLLM, Hugging Face TGI, or any compatible endpoint | - |
+|----------|-------------|:-------------------:|
+| **Anthropic** | Native Claude CLI configuration | — |
+| **Z.AI** | Cost-effective GLM-4.6/4.7 models | ✓ |
+| **OpenRouter** | Access 320+ models through single API | ✓ |
+| **Kimi K2** | Up to 90% cost savings with Moonshot AI | ✓ |
+| **MiniMax** | Agent-native M2/M2.1 models for coding | ✓ |
+| **DeepSeek** | 128K context models with reasoning | ✓ |
+| **Novita AI** | Novita AI provider support | ✓ |
+| **Custom** | LiteLLM, HuggingFace TGI, any compatible endpoint | — |
 
-## Installation
+## Get Started
+
+### Prerequisites
+
+- **Node.js** >= 18.0.0
+- **[Claude CLI](https://docs.anthropic.com/en/docs/claude-code)** installed and configured
+- API keys for your desired providers
+
+### Installation
 
 ```bash
 npm install -g claudegate
 ```
 
-## Quick Start
+### Quick Start
 
 ```bash
 # Launch ClaudeGate - shows profile selector, then starts Claude
@@ -54,9 +77,9 @@ cc -p "help me debug this"
 ## How It Works
 
 ```
-╔═══════════════════════════════════════════════════════════╗
-║                        CLAUDEGATE                          ║
-╚═══════════════════════════════════════════════════════════╝
+┌─────────────────────────────────────────────────────────────┐
+│                        CLAUDEGATE                           │
+└─────────────────────────────────────────────────────────────┘
 
 ? Select active profile:
 ❯ ● work-anthropic (Anthropic) [current]
@@ -69,9 +92,9 @@ cc -p "help me debug this"
     ⚙ Manage profiles
 ```
 
-1. **Select Profile** - Choose which AI provider to use
-2. **Launch Claude** - Claude CLI starts with the correct environment
-3. **Work normally** - All your usual Claude workflows just work
+1. **Select Profile** — Choose which AI provider to use
+2. **Launch Claude** — Claude CLI starts with the correct environment
+3. **Work normally** — All your usual Claude workflows just work
 
 ## Features
 
@@ -100,11 +123,13 @@ ClaudeGate fetches available models **live from provider APIs**. When creating o
 ```
 
 **Three-tier model mapping:**
-- **Haiku** → Fast/cheap tasks (quick edits, simple queries)
-- **Sonnet** → Balanced tasks (most common usage)
-- **Opus** → Complex reasoning (architecture, debugging)
+| Tier | Use Case |
+|------|----------|
+| **Haiku** | Fast/cheap tasks (quick edits, simple queries) |
+| **Sonnet** | Balanced tasks (most common usage) |
+| **Opus** | Complex reasoning (architecture, debugging) |
 
-Models are saved with your profile - no need to reselect every time!
+Models are saved with your profile—no need to reselect every time.
 
 ### Profile Management
 
@@ -113,48 +138,70 @@ Models are saved with your profile - no need to reselect every time!
 Select **"+ Add new profile"** from the menu:
 
 1. Choose a provider (Z.AI, OpenRouter, DeepSeek, MiniMax, etc.)
-2. Enter a profile name (e.g., "work-deepseek")
+2. Enter a profile name (e.g., `work-deepseek`)
 3. Enter required credentials (API keys, endpoints)
-4. **Select models** for Haiku, Sonnet, and Opus tiers
+4. Select models for Haiku, Sonnet, and Opus tiers
 5. Profile is saved and ready to use
 
 #### Managing Profiles
 
 Select **"⚙ Manage profiles"** to:
 
-- **Edit** - Update profile name or credentials
-- **Change Models** - Select different models for Haiku/Sonnet/Opus
-- **Delete** - Remove a profile
-- **Test** - Verify your configuration and see current models
+| Action | Description |
+|--------|-------------|
+| **Edit** | Update profile name or credentials |
+| **Change Models** | Select different models for each tier |
+| **Delete** | Remove a profile |
+| **Test** | Verify configuration and view current models |
 
-### Provider-Specific Notes
+## Provider Setup
 
-#### Z.AI (GLM Models)
-- Models: GLM-4.7, GLM-4.6, GLM-4.5-air
-- Endpoint: `https://api.z.ai/api/anthropic`
-- Get API key: [z.ai/manage-apikey](https://z.ai/manage-apikey)
+<details>
+<summary><strong>Z.AI (GLM Models)</strong></summary>
 
-#### DeepSeek
-- Models: deepseek-chat (V3), deepseek-reasoner (thinking mode)
-- Endpoint: `https://api.deepseek.com`
-- Get API key: [platform.deepseek.com](https://platform.deepseek.com)
+- **Models:** GLM-4.7, GLM-4.6, GLM-4.5-air
+- **Endpoint:** `https://api.z.ai/api/anthropic`
+- **Get API key:** [z.ai/manage-apikey](https://z.ai/manage-apikey)
+
+</details>
+
+<details>
+<summary><strong>DeepSeek</strong></summary>
+
+- **Models:** deepseek-chat (V3), deepseek-reasoner (thinking mode)
+- **Endpoint:** `https://api.deepseek.com`
+- **Get API key:** [platform.deepseek.com](https://platform.deepseek.com)
 - 128K context window, extremely cost-effective
 
-#### MiniMax (M2 Models)
-- Models: MiniMax-M2.1 (230B), MiniMax-M2
-- Endpoint: `https://api.minimax.io/anthropic`
-- Get API key: [platform.minimax.io](https://platform.minimax.io)
+</details>
+
+<details>
+<summary><strong>MiniMax (M2 Models)</strong></summary>
+
+- **Models:** MiniMax-M2.1 (230B), MiniMax-M2
+- **Endpoint:** `https://api.minimax.io/anthropic`
+- **Get API key:** [platform.minimax.io](https://platform.minimax.io)
 - Optimized for coding and agentic workflows
 
-#### OpenRouter
-- Access 320+ models from multiple providers
-- Endpoint: `https://openrouter.ai/api`
-- Get API key: [openrouter.ai/keys](https://openrouter.ai/keys)
+</details>
 
-#### Moonshot (Kimi K2)
-- Models: kimi-k2-0711-preview
-- Endpoint: `https://api.moonshot.ai/anthropic`
-- Get API key: [platform.moonshot.ai](https://platform.moonshot.ai)
+<details>
+<summary><strong>OpenRouter</strong></summary>
+
+- Access 320+ models from multiple providers
+- **Endpoint:** `https://openrouter.ai/api`
+- **Get API key:** [openrouter.ai/keys](https://openrouter.ai/keys)
+
+</details>
+
+<details>
+<summary><strong>Moonshot (Kimi K2)</strong></summary>
+
+- **Models:** kimi-k2-0711-preview
+- **Endpoint:** `https://api.moonshot.ai/anthropic`
+- **Get API key:** [platform.moonshot.ai](https://platform.moonshot.ai)
+
+</details>
 
 ## Configuration
 
@@ -176,21 +223,14 @@ Profiles are stored in `~/.claudegate/config.json`:
       "selectedModels": {
         "haiku": { "id": "deepseek-chat", "name": "DeepSeek Chat V3" },
         "sonnet": { "id": "deepseek-chat", "name": "DeepSeek Chat V3" },
-        "opus": { "id": "deepseek-reasoner", "name": "DeepSeek Reasoner" },
-        "lastFetched": "2025-01-15T10:30:00.000Z"
+        "opus": { "id": "deepseek-reasoner", "name": "DeepSeek Reasoner" }
       }
     }
   ]
 }
 ```
 
-## Prerequisites
-
-- **Node.js** >= 18.0.0
-- **[Claude CLI](https://docs.anthropic.com/en/docs/claude-code)** installed and configured
-- API keys for your desired providers
-
-## Environment Variables
+### Environment Variables
 
 ClaudeGate sets these environment variables based on your profile:
 
@@ -210,31 +250,43 @@ ClaudeGate sets these environment variables based on your profile:
 
 ## Troubleshooting
 
-### Claude CLI not found
+<details>
+<summary><strong>Claude CLI not found</strong></summary>
 
 ```bash
 which claude  # Should show Claude CLI path
 ```
 
-If not found, install Claude CLI first.
+If not found, install Claude CLI first: [docs.anthropic.com/en/docs/claude-code](https://docs.anthropic.com/en/docs/claude-code)
 
-### Permission denied
+</details>
+
+<details>
+<summary><strong>Permission denied</strong></summary>
 
 ```bash
 chmod 700 ~/.claudegate
 chmod 600 ~/.claudegate/config.json
 ```
 
-### Provider connection issues
+</details>
+
+<details>
+<summary><strong>Provider connection issues</strong></summary>
 
 Use the **"Test"** option in profile management to verify credentials.
 
-### Model fetch failed
+</details>
+
+<details>
+<summary><strong>Model fetch failed</strong></summary>
 
 If live model fetching fails:
 1. Check your API key is valid
 2. Fallback models will be shown
 3. You can always enter a custom model ID
+
+</details>
 
 ## Uninstall
 
@@ -249,6 +301,22 @@ Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for gui
 
 This project uses [Conventional Commits](https://www.conventionalcommits.org/) for automatic versioning.
 
+## Star History
+
+<a href="https://star-history.com/#Naresh084/claudegate&Date">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Naresh084/claudegate&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Naresh084/claudegate&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Naresh084/claudegate&type=Date" />
+ </picture>
+</a>
+
 ## License
 
 [MIT](LICENSE)
+
+---
+
+<p align="center">
+  Made with Claude Code
+</p>

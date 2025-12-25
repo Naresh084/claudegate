@@ -5,8 +5,8 @@
 </p>
 
 <p align="center">
-  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/v/claudegate.svg?style=flat-square" alt="npm version"></a>
-  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/dm/claudegate.svg?style=flat-square" alt="npm downloads"></a>
+  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/v/claudegate?style=flat-square&color=cb3837" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/claudegate"><img src="https://img.shields.io/npm/dt/claudegate?style=flat-square&color=cb3837" alt="npm downloads"></a>
   <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg?style=flat-square" alt="Node.js"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
   <a href="https://github.com/Naresh084/claudegate/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Naresh084/claudegate/ci.yml?branch=main&style=flat-square" alt="CI"></a>

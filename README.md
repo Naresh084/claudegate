@@ -4,27 +4,31 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![CI](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml/badge.svg)](https://github.com/Naresh084/claudegate/actions/workflows/ci.yml)
 
-> A terminal utility that acts as a gateway for Claude CLI, enabling seamless switching between AI providers without modifying your Claude configuration.
+> A terminal utility that acts as a gateway for Claude CLI, enabling seamless switching between AI providers and models without modifying your Claude configuration.
 
 ## Why ClaudeGate?
 
-Claude CLI is powerful, but switching between different AI providers (Anthropic, OpenRouter, Z.AI, etc.) requires manually setting environment variables or editing config files. **ClaudeGate** solves this by providing:
+Claude CLI is powerful, but switching between different AI providers (Anthropic, OpenRouter, Z.AI, DeepSeek, MiniMax, etc.) requires manually setting environment variables or editing config files. **ClaudeGate** solves this by providing:
 
 - **One-click provider switching** - Interactive menu to select your AI backend
+- **Dynamic model selection** - Fetch and select models directly from provider APIs
+- **Three-tier model mapping** - Configure Haiku, Sonnet, and Opus alternatives
 - **Profile management** - Save multiple configurations for different use cases
 - **Zero config pollution** - Never modifies your `~/.claude/settings.json`
 - **Full CLI passthrough** - All Claude arguments work exactly as expected
 
 ## Supported Providers
 
-| Provider | Description |
-|----------|-------------|
-| **Anthropic (Native)** | Use your existing Claude CLI configuration |
-| **Z.AI (GLM Models)** | Cost-effective alternative using GLM-4.7 models |
-| **OpenRouter** | Access 320+ models through a single API |
-| **Kimi K2 (Moonshot AI)** | Up to 90% cost savings with Kimi K2 models |
-| **Novita AI** | Novita AI provider support |
-| **Custom / Self-hosted** | LiteLLM, Hugging Face TGI, or any compatible endpoint |
+| Provider | Description | Live Model Fetching |
+|----------|-------------|---------------------|
+| **Anthropic (Native)** | Use your existing Claude CLI configuration | N/A |
+| **Z.AI (GLM Models)** | Cost-effective alternative using GLM-4.6/4.7 models | ✅ |
+| **OpenRouter** | Access 320+ models through a single API | ✅ |
+| **Kimi K2 (Moonshot AI)** | Up to 90% cost savings with Kimi K2 models | ✅ |
+| **MiniMax (M2 Models)** | Agent-native M2/M2.1 models for coding workflows | ✅ |
+| **DeepSeek (V3 Models)** | Cost-effective 128K context models with reasoning | ✅ |
+| **Novita AI** | Novita AI provider support | ✅ |
+| **Custom / Self-hosted** | LiteLLM, Hugging Face TGI, or any compatible endpoint | - |
 
 ## Installation
 
@@ -50,15 +54,16 @@ cc -p "help me debug this"
 ## How It Works
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        CLAUDEGATE                           │
-└─────────────────────────────────────────────────────────────┘
+╔═══════════════════════════════════════════════════════════╗
+║                        CLAUDEGATE                          ║
+╚═══════════════════════════════════════════════════════════╝
 
 ? Select active profile:
 ❯ ● work-anthropic (Anthropic) [current]
     zai-dev (Z.AI - GLM Models)
     openrouter-gpt4 (OpenRouter)
-    kimi-k2 (Kimi K2 - Moonshot AI)
+    deepseek-v3 (DeepSeek)
+    minimax-m2 (MiniMax)
   ─────────────────────────────────────
     + Add new profile
     ⚙ Manage profiles
@@ -68,24 +73,88 @@ cc -p "help me debug this"
 2. **Launch Claude** - Claude CLI starts with the correct environment
 3. **Work normally** - All your usual Claude workflows just work
 
-## Profile Management
+## Features
 
-### Adding a Profile
+### Dynamic Model Selection
+
+ClaudeGate fetches available models **live from provider APIs**. When creating or editing a profile, you can select models for each tier:
+
+```
+? Select model for HAIKU (fast/cheap tasks):
+  ○ Skip (use provider default)
+  ○ deepseek-chat (Recommended)
+  ○ deepseek-reasoner
+  ○ Enter custom model ID...
+
+? Select model for SONNET (balanced tasks):
+  ○ Skip (use provider default)
+  ○ deepseek-chat (Recommended)
+  ○ deepseek-reasoner
+  ○ Enter custom model ID...
+
+? Select model for OPUS (complex reasoning):
+  ○ Skip (use provider default)
+  ○ deepseek-reasoner (Recommended)
+  ○ deepseek-chat
+  ○ Enter custom model ID...
+```
+
+**Three-tier model mapping:**
+- **Haiku** → Fast/cheap tasks (quick edits, simple queries)
+- **Sonnet** → Balanced tasks (most common usage)
+- **Opus** → Complex reasoning (architecture, debugging)
+
+Models are saved with your profile - no need to reselect every time!
+
+### Profile Management
+
+#### Adding a Profile
 
 Select **"+ Add new profile"** from the menu:
 
-1. Choose a provider (Anthropic, Z.AI, OpenRouter, etc.)
-2. Enter a profile name (e.g., "work-openrouter")
+1. Choose a provider (Z.AI, OpenRouter, DeepSeek, MiniMax, etc.)
+2. Enter a profile name (e.g., "work-deepseek")
 3. Enter required credentials (API keys, endpoints)
-4. Profile is saved and ready to use
+4. **Select models** for Haiku, Sonnet, and Opus tiers
+5. Profile is saved and ready to use
 
-### Managing Profiles
+#### Managing Profiles
 
 Select **"⚙ Manage profiles"** to:
 
 - **Edit** - Update profile name or credentials
+- **Change Models** - Select different models for Haiku/Sonnet/Opus
 - **Delete** - Remove a profile
-- **Test** - Verify your configuration works
+- **Test** - Verify your configuration and see current models
+
+### Provider-Specific Notes
+
+#### Z.AI (GLM Models)
+- Models: GLM-4.7, GLM-4.6, GLM-4.5-air
+- Endpoint: `https://api.z.ai/api/anthropic`
+- Get API key: [z.ai/manage-apikey](https://z.ai/manage-apikey)
+
+#### DeepSeek
+- Models: deepseek-chat (V3), deepseek-reasoner (thinking mode)
+- Endpoint: `https://api.deepseek.com`
+- Get API key: [platform.deepseek.com](https://platform.deepseek.com)
+- 128K context window, extremely cost-effective
+
+#### MiniMax (M2 Models)
+- Models: MiniMax-M2.1 (230B), MiniMax-M2
+- Endpoint: `https://api.minimax.io/anthropic`
+- Get API key: [platform.minimax.io](https://platform.minimax.io)
+- Optimized for coding and agentic workflows
+
+#### OpenRouter
+- Access 320+ models from multiple providers
+- Endpoint: `https://openrouter.ai/api`
+- Get API key: [openrouter.ai/keys](https://openrouter.ai/keys)
+
+#### Moonshot (Kimi K2)
+- Models: kimi-k2-0711-preview
+- Endpoint: `https://api.moonshot.ai/anthropic`
+- Get API key: [platform.moonshot.ai](https://platform.moonshot.ai)
 
 ## Configuration
 
@@ -98,17 +167,17 @@ Profiles are stored in `~/.claudegate/config.json`:
   "profiles": [
     {
       "id": "abc-123",
-      "name": "work-anthropic",
-      "providerId": "anthropic",
-      "envVars": {}
-    },
-    {
-      "id": "def-456",
-      "name": "zai-dev",
-      "providerId": "zai",
+      "name": "deepseek-dev",
+      "providerId": "deepseek",
       "envVars": {
-        "ANTHROPIC_AUTH_TOKEN": "your-api-key",
-        "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic"
+        "ANTHROPIC_AUTH_TOKEN": "sk-xxx",
+        "ANTHROPIC_BASE_URL": "https://api.deepseek.com"
+      },
+      "selectedModels": {
+        "haiku": { "id": "deepseek-chat", "name": "DeepSeek Chat V3" },
+        "sonnet": { "id": "deepseek-chat", "name": "DeepSeek Chat V3" },
+        "opus": { "id": "deepseek-reasoner", "name": "DeepSeek Reasoner" },
+        "lastFetched": "2025-01-15T10:30:00.000Z"
       }
     }
   ]
@@ -120,6 +189,18 @@ Profiles are stored in `~/.claudegate/config.json`:
 - **Node.js** >= 18.0.0
 - **[Claude CLI](https://docs.anthropic.com/en/docs/claude-code)** installed and configured
 - API keys for your desired providers
+
+## Environment Variables
+
+ClaudeGate sets these environment variables based on your profile:
+
+| Variable | Description |
+|----------|-------------|
+| `ANTHROPIC_BASE_URL` | Provider API endpoint |
+| `ANTHROPIC_AUTH_TOKEN` | API authentication token |
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | Model for Haiku-tier requests |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | Model for Sonnet-tier requests |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | Model for Opus-tier requests |
 
 ## Security
 
@@ -147,6 +228,13 @@ chmod 600 ~/.claudegate/config.json
 ### Provider connection issues
 
 Use the **"Test"** option in profile management to verify credentials.
+
+### Model fetch failed
+
+If live model fetching fails:
+1. Check your API key is valid
+2. Fallback models will be shown
+3. You can always enter a custom model ID
 
 ## Uninstall
 

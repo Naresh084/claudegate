@@ -111,7 +111,7 @@ export const PROVIDERS: ProviderDefinition[] = [
         description: 'Kimi API endpoint',
         type: 'url',
         sensitive: false,
-        default: 'https://api.moonshot.ai/anthropic',
+        default: 'https://api.kimi.com/coding/',
         required: true,
       },
     ],

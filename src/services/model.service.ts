@@ -109,6 +109,9 @@ export async function fetchModels(
       if (response.status === 429) {
         return { success: false, models: [], error: 'Rate limited - try again later' };
       }
+      if (response.status >= 500) {
+        return { success: false, models: [], error: `Server error (${response.status}) - provider may be down` };
+      }
       return {
         success: false,
         models: [],

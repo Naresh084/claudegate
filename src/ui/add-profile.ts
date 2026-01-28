@@ -52,8 +52,7 @@ export async function addProfileFlow(): Promise<Profile | null> {
     // Get API key from env vars
     const apiKeyEnvVar =
       provider.modelFetching?.authKeyEnvVar || 'ANTHROPIC_AUTH_TOKEN';
-    const apiKey =
-      envVars[apiKeyEnvVar] || envVars['OPENROUTER_API_KEY'] || '';
+    const apiKey = envVars[apiKeyEnvVar] || '';
 
     if (apiKey) {
       console.log();
@@ -65,6 +64,8 @@ export async function addProfileFlow(): Promise<Profile | null> {
           haiku: models.haiku,
           sonnet: models.sonnet,
           opus: models.opus,
+          default: models.default,
+          subagent: models.subagent,
           lastFetched: new Date().toISOString(),
         };
       }

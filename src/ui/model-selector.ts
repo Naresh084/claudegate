@@ -7,7 +7,7 @@ import {
   type Model,
 } from '../services/model.service.js';
 import type { ProviderDefinition, SelectedModels, SelectedModel } from '../types/index.js';
-import { showWarning } from './components/status.js';
+import { showWarning, showError } from './components/status.js';
 
 /**
  * Result of model selection
@@ -16,6 +16,8 @@ export interface ModelSelection {
   haiku?: SelectedModel;
   sonnet?: SelectedModel;
   opus?: SelectedModel;
+  default?: SelectedModel;
+  subagent?: SelectedModel;
 }
 
 const SKIP_VALUE = '__skip__';
@@ -36,13 +38,20 @@ export async function selectModels(
   spinner.stop();
 
   if (result.error) {
-    showWarning(result.error);
+    // Show as error for server errors, warning for others
+    if (result.error.includes('Server error') || result.error.includes('Fetch failed')) {
+      showError(result.error);
+    } else {
+      showWarning(result.error);
+    }
   }
 
   const models = result.models;
 
-  if (models.length === 0) {
+  if (models.length === 0 && !result.error) {
     showWarning('No models available. You can enter custom model IDs.');
+  } else if (models.length === 0 && result.error) {
+    showWarning('Using fallback models due to API error.');
   }
 
   console.log();
@@ -76,7 +85,25 @@ export async function selectModels(
     currentModels?.opus
   );
 
-  return { haiku, sonnet, opus };
+  // Select Default model (ANTHROPIC_MODEL)
+  const defaultModel = await selectModelForTier(
+    'sonnet',
+    'DEFAULT (ANTHROPIC_MODEL)',
+    models,
+    getFallbackModelsForTier(provider.id, 'sonnet'),
+    currentModels?.default
+  );
+
+  // Select Subagent model (CLAUDE_CODE_SUBAGENT_MODEL)
+  const subagent = await selectModelForTier(
+    'haiku',
+    'SUBAGENT (fast tasks)',
+    models,
+    getFallbackModelsForTier(provider.id, 'haiku'),
+    currentModels?.subagent
+  );
+
+  return { haiku, sonnet, opus, default: defaultModel, subagent };
 }
 
 /**

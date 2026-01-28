@@ -179,8 +179,7 @@ async function changeModelsFlow(profile: Profile): Promise<void> {
   // Get API key from profile env vars
   const apiKeyEnvVar =
     provider.modelFetching?.authKeyEnvVar || 'ANTHROPIC_AUTH_TOKEN';
-  const apiKey =
-    profile.envVars[apiKeyEnvVar] || profile.envVars['OPENROUTER_API_KEY'] || '';
+  const apiKey = profile.envVars[apiKeyEnvVar] || '';
 
   if (!apiKey) {
     showError('No API key configured for this profile');

@@ -66,6 +66,12 @@ export function buildEnvVars(profile: Profile): Record<string, string> {
     if (profile.selectedModels.opus) {
       env['ANTHROPIC_DEFAULT_OPUS_MODEL'] = profile.selectedModels.opus.id;
     }
+    if (profile.selectedModels.default) {
+      env['ANTHROPIC_MODEL'] = profile.selectedModels.default.id;
+    }
+    if (profile.selectedModels.subagent) {
+      env['CLAUDE_CODE_SUBAGENT_MODEL'] = profile.selectedModels.subagent.id;
+    }
   }
 
   return env;

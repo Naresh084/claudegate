@@ -7,12 +7,14 @@ export interface SelectedModel {
 }
 
 /**
- * Three-tier model selection (Haiku, Sonnet, Opus)
+ * Model selection for all Claude Code model slots
  */
 export interface SelectedModels {
   haiku?: SelectedModel;
   sonnet?: SelectedModel;
   opus?: SelectedModel;
+  default?: SelectedModel;   // ANTHROPIC_MODEL
+  subagent?: SelectedModel;  // CLAUDE_CODE_SUBAGENT_MODEL
   lastFetched?: string; // ISO timestamp when models were last fetched
 }
 

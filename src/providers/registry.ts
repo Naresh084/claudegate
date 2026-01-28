@@ -63,20 +63,11 @@ export const PROVIDERS: ProviderDefinition[] = [
     color: '#6366F1',
     envVars: [
       {
-        name: 'OPENROUTER_API_KEY',
+        name: 'ANTHROPIC_AUTH_TOKEN',
         label: 'OpenRouter API Key',
         description: 'Your OpenRouter API key',
         type: 'apiKey',
         sensitive: true,
-        required: true,
-      },
-      {
-        name: 'ANTHROPIC_API_KEY',
-        label: 'Anthropic Key Override',
-        description: 'Must be empty for OpenRouter to work',
-        type: 'string',
-        sensitive: false,
-        default: '',
         required: true,
       },
       {
@@ -92,7 +83,7 @@ export const PROVIDERS: ProviderDefinition[] = [
     modelFetching: {
       supported: true,
       endpoint: 'https://openrouter.ai/api/v1/models',
-      authKeyEnvVar: 'OPENROUTER_API_KEY',
+      authKeyEnvVar: 'ANTHROPIC_AUTH_TOKEN',
     },
     fallbackModels: [
       { id: 'anthropic/claude-sonnet-4', name: 'Claude Sonnet 4', tier: 'opus' },
@@ -102,12 +93,12 @@ export const PROVIDERS: ProviderDefinition[] = [
   },
   {
     id: 'moonshot',
-    name: 'Kimi K2 (Moonshot AI)',
-    description: '90% cheaper - Moonshot AI Kimi K2 models',
+    name: 'Kimi Series (Moonshot AI)',
+    description: '90% cheaper - Moonshot AI Kimi models',
     color: '#10B981',
     envVars: [
       {
-        name: 'ANTHROPIC_API_KEY',
+        name: 'ANTHROPIC_AUTH_TOKEN',
         label: 'Kimi API Key',
         description: 'Your Kimi API key from platform.moonshot.ai',
         type: 'apiKey',
@@ -117,7 +108,7 @@ export const PROVIDERS: ProviderDefinition[] = [
       {
         name: 'ANTHROPIC_BASE_URL',
         label: 'Base URL',
-        description: 'Kimi API endpoint (e.g., https://api.kimi.com/coding/)',
+        description: 'Kimi API endpoint',
         type: 'url',
         sensitive: false,
         default: 'https://api.kimi.com/coding/',
@@ -126,6 +117,7 @@ export const PROVIDERS: ProviderDefinition[] = [
     ],
     modelFetching: {
       supported: false,
+      authKeyEnvVar: 'ANTHROPIC_AUTH_TOKEN',
     },
     fallbackModels: [
       // Multi-modal

@@ -107,7 +107,7 @@ export const PROVIDERS: ProviderDefinition[] = [
     color: '#10B981',
     envVars: [
       {
-        name: 'ANTHROPIC_API_KEY',
+        name: 'ANTHROPIC_AUTH_TOKEN',
         label: 'Kimi API Key',
         description: 'Your Kimi API key from platform.moonshot.ai',
         type: 'apiKey',
@@ -117,15 +117,16 @@ export const PROVIDERS: ProviderDefinition[] = [
       {
         name: 'ANTHROPIC_BASE_URL',
         label: 'Base URL',
-        description: 'Kimi API endpoint (e.g., https://api.kimi.com/coding/)',
+        description: 'Kimi API endpoint',
         type: 'url',
         sensitive: false,
-        default: 'https://api.kimi.com/coding/',
+        default: 'https://api.moonshot.ai/anthropic',
         required: true,
       },
     ],
     modelFetching: {
       supported: false,
+      authKeyEnvVar: 'ANTHROPIC_AUTH_TOKEN',
     },
     fallbackModels: [
       // Multi-modal

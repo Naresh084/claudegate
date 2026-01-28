@@ -107,9 +107,9 @@ export const PROVIDERS: ProviderDefinition[] = [
     color: '#10B981',
     envVars: [
       {
-        name: 'ANTHROPIC_AUTH_TOKEN',
-        label: 'Moonshot API Key',
-        description: 'Your Moonshot AI API key from platform.moonshot.ai',
+        name: 'ANTHROPIC_API_KEY',
+        label: 'Kimi API Key',
+        description: 'Your Kimi API key from platform.moonshot.ai',
         type: 'apiKey',
         sensitive: true,
         required: true,
@@ -117,22 +117,25 @@ export const PROVIDERS: ProviderDefinition[] = [
       {
         name: 'ANTHROPIC_BASE_URL',
         label: 'Base URL',
-        description: 'Moonshot API endpoint',
+        description: 'Kimi API endpoint (e.g., https://api.kimi.com/coding/)',
         type: 'url',
         sensitive: false,
-        default: 'https://api.moonshot.ai/anthropic',
+        default: 'https://api.kimi.com/coding/',
         required: true,
       },
     ],
     modelFetching: {
-      supported: true,
-      endpoint: 'https://api.moonshot.ai/v1/models',
-      authKeyEnvVar: 'ANTHROPIC_AUTH_TOKEN',
+      supported: false,
     },
     fallbackModels: [
-      { id: 'kimi-k2-0711-preview', name: 'Kimi K2', tier: 'opus' },
-      { id: 'kimi-k2-0711-preview', name: 'Kimi K2', tier: 'sonnet' },
-      { id: 'kimi-k2-0711-preview', name: 'Kimi K2', tier: 'haiku' },
+      // Multi-modal
+      { id: 'kimi-k2.5', name: 'Kimi K2.5 (Multimodal, 256k)', tier: 'opus' },
+      // K2 Models
+      { id: 'kimi-k2-thinking', name: 'Kimi K2 Thinking (256k, deep reasoning)', tier: 'opus' },
+      { id: 'kimi-k2-thinking-turbo', name: 'Kimi K2 Thinking Turbo (256k, fast)', tier: 'opus' },
+      { id: 'kimi-k2-0905-preview', name: 'Kimi K2 0905 (256k, enhanced coding)', tier: 'sonnet' },
+      { id: 'kimi-k2-0711-preview', name: 'Kimi K2 0711 (128k, base)', tier: 'sonnet' },
+      { id: 'kimi-k2-turbo-preview', name: 'Kimi K2 Turbo (256k, 60-100 tok/s)', tier: 'haiku' },
     ],
   },
   {

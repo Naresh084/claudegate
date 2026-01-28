@@ -104,7 +104,7 @@ export async function fetchModels(
 
     if (!response.ok) {
       if (response.status === 401 || response.status === 403) {
-        return { success: false, models: [], error: 'Invalid API key' };
+        return { success: false, models: [], error: 'API key not authorized (may need account balance)' };
       }
       if (response.status === 429) {
         return { success: false, models: [], error: 'Rate limited - try again later' };
